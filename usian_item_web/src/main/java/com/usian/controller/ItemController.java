@@ -45,4 +45,20 @@ public class ItemController {
         }
         return Result.error("无结果");
     }
+
+    /**
+     * 商品添加
+     * @param tbItem
+     * @param desc
+     * @param itemParams
+     * @return
+     */
+    @RequestMapping("/insertTbItem")
+    public Result insertTbItem(TbItem tbItem,String desc,String itemParams){
+        Integer insertTbItemNum = itemServiceFeign.insertTbItem(tbItem,desc,itemParams);
+        if(insertTbItemNum==3){
+            return Result.ok();
+        }
+        return Result.error("失败");
+    }
 }
