@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/service/item")
 public class ItemController {
@@ -46,5 +48,37 @@ public class ItemController {
     @RequestMapping("/insertTbItem")
     public Integer insertItem(@RequestBody TbItem tbItem, String desc, String itemParams){
         return itemService.insertItem(tbItem,desc,itemParams);
+    }
+
+    /**
+     * 删除商品
+     * @param itemId
+     * @return
+     */
+    @RequestMapping("/deleteItemById")
+    public Integer deleteItemById(Long itemId){
+        return itemService.deleteItemById(itemId);
+    }
+
+    /**
+     * 修改查询
+     * @param itemId
+     * @return
+     */
+    @RequestMapping("/preUpdateItem")
+    public Map<String,Object> preUpdateItem(Long itemId){
+        return itemService.preUpdateItem(itemId);
+    }
+
+    /**
+     * 商品修改
+     * @param tbItem
+     * @param desc
+     * @param itemParams
+     * @return
+     */
+    @RequestMapping("/updateTbItem")
+    public Integer updateTbItem(@RequestBody TbItem tbItem, String desc,String itemParams){
+        return itemService.updateTbItem(tbItem,desc,itemParams);
     }
 }

@@ -16,7 +16,7 @@ public class ItemParamController {
     private ItemParamService itemParamService;
 
     /**
-     * 查询商品规格参数
+     * 查询商品规格参数模板
      * @param itemCatId
      * @return
      */

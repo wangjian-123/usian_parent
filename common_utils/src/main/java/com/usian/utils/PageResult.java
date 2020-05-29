@@ -3,16 +3,16 @@ package com.usian.utils;
 import java.util.List;
 
 public class PageResult {
-    private Integer page; //当前页
+    private Integer pageIndex; //当前页
     private Long totalPage; //总页数
     private List result; //结果集
 
-    public Integer getPage() {
-        return page;
+    public Integer getPageIndex() {
+        return pageIndex;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
+    public void setPageIndex(Integer pageIndex) {
+        this.pageIndex = pageIndex;
     }
 
     public Long getTotalPage() {

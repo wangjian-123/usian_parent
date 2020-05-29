@@ -39,7 +39,7 @@ public class ItemParamServiceImpl implements ItemParamService {
     }
 
     /**
-     * 规格参数查询
+     * 规格模板参数查询
      * @param page
      * @param rows
      * @return
@@ -53,7 +53,7 @@ public class ItemParamServiceImpl implements ItemParamService {
         PageInfo<TbItemParam> pageInfo = new PageInfo<>(paramList);
         PageResult pageResult = new PageResult();
         pageResult.setResult(pageInfo.getList());
-        pageResult.setPage(pageInfo.getPageNum());
+        pageResult.setPageIndex(pageInfo.getPageNum());
         pageResult.setTotalPage(Long.valueOf(pageInfo.getPages()));
         return pageResult;
     }
