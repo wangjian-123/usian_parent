@@ -50,6 +50,10 @@ public class ContentController {
         return contentService.deleteContentByIds(ids);
     }
 
+    /**
+     * 首页大广告位查询
+     * @return
+     */
     @RequestMapping("/selectFrontendContentByAD")
     public List<AdNode> selectFrontendContentByAD(){
         return contentService.selectFrontendContentByAD();
