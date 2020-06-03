@@ -1,0 +1,28 @@
+2020.6.1
+    redis:缓存首页大广告位信息、缓存同步
+    elasticsearch介绍
+    安装elasticsearch
+    安装kibana
+    安装head
+    es快速入门：index管理、mapping管理、document管理、
+                ES读写原理、
+2020.6.2
+    IK分词器
+    field详细介绍
+    springboot整合elasticsearch:
+        es客户端
+        搭建工程
+        索引管理
+2020.6.3
+    文档搜索：
+        简单搜索
+        DSL搜索：
+            match_all查询
+            分页查询
+            match查询
+            multil_match查询
+            bool查询
+            field查询
+
+
+
