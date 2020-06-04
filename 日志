@@ -23,6 +23,10 @@
             multil_match查询
             bool查询
             field查询
+2020.6.4
+    highlight查询
+    elasticsearch集群管理
+    导入商品数据到索引库
 
 
 
