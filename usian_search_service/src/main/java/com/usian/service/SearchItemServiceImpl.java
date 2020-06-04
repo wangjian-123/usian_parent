@@ -9,7 +9,6 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.client.IndicesClient;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
@@ -49,15 +48,17 @@ public class SearchItemServiceImpl implements SearchItemService {
                 createIndex();
             }
             int page = 1;
-            PageHelper.startPage(page,1000);
             while (true) {
+                //分页每次导入一千条
+                PageHelper.startPage(page,1000);
                 BulkRequest bulkRequest = new BulkRequest();
                 List<SearchItem> itemList = searchItemMapper.getItemList();
                 if (itemList == null || itemList.size() == 0) {
                     break;
                 }
                 for (SearchItem searchItem : itemList) {
-                    bulkRequest.add(new IndexRequest(ES_INDEX_NAME, ES_TYPE_NAME).source(JsonUtils.objectToJson(searchItem), XContentType.JSON));
+                    bulkRequest.add(new IndexRequest(ES_INDEX_NAME, ES_TYPE_NAME).
+                            source(JsonUtils.objectToJson(searchItem), XContentType.JSON));
                 }
             restHighLevelClient.bulk(bulkRequest,RequestOptions.DEFAULT);
                 page++;
@@ -98,6 +99,9 @@ public class SearchItemServiceImpl implements SearchItemService {
                 "    ]\n" +
                 "  }, \n" +
                 "  \"properties\": {\n" +
+                "    \"item_id\": {\n" +
+                "      \"type\": \"keyword\"\n" +
+                "    },\n" +
                 "    \"item_title\": {\n" +
                 "      \"type\": \"text\",\n" +
                 "      \"analyzer\": \"ik_max_word\",\n" +
@@ -127,9 +131,7 @@ public class SearchItemServiceImpl implements SearchItemService {
                 "    }\n" +
                 "  }\n" +
                 "}",XContentType.JSON);
-        //创建索引操作客户端
-        IndicesClient indices = restHighLevelClient.indices();
-        //创建响应对象
+        //创建索引操作客户端,响应对象
         CreateIndexResponse createIndexResponse =
                 restHighLevelClient.indices().create(createIndexRequest,RequestOptions.DEFAULT);
         return createIndexResponse.isAcknowledged();
