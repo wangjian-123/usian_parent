@@ -85,7 +85,7 @@ public class SearchItemServiceImpl implements SearchItemService {
      * 创建索引库
      * @throws IOException
      */
-    private void createIndex() throws IOException {
+    private boolean createIndex() throws IOException {
         //创建索引请求对象，并设置索引名称
         CreateIndexRequest createIndexRequest = new CreateIndexRequest(ES_INDEX_NAME);
         //设置索引参数
@@ -132,7 +132,7 @@ public class SearchItemServiceImpl implements SearchItemService {
         //创建响应对象
         CreateIndexResponse createIndexResponse =
                 restHighLevelClient.indices().create(createIndexRequest,RequestOptions.DEFAULT);
-
+        return createIndexResponse.isAcknowledged();
 
     }
 }
