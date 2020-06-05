@@ -13,6 +13,6 @@ public interface SearchItemFeign {
     @RequestMapping("/service/searchItem/importAll")
     public Boolean importAll();
 
-    @RequestMapping("/service/searchItem//list")
+    @RequestMapping("/service/searchItem/list")
     List<SearchItem> list(@RequestParam String q, @RequestParam Long page, @RequestParam Integer rows);
 }
