@@ -15,11 +15,22 @@ public class SearchController {
     @Autowired
     private SearchItemService searchItemService;
 
+    /**
+     * 导入商品数据到索引库
+     * @return
+     */
     @RequestMapping("/importAll")
     public Boolean importAll(){
         return searchItemService.importAll();
     }
 
+    /**
+     * 搜索商品
+     * @param q
+     * @param page
+     * @param rows
+     * @return
+     */
     @RequestMapping("/list")
     public List<SearchItem> list(String q,Long page,Integer rows){
         return searchItemService.list(q,page,rows);

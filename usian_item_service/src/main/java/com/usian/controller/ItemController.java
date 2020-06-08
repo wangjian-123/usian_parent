@@ -1,6 +1,7 @@
 package com.usian.controller;
 
 import com.usian.pojo.TbItem;
+import com.usian.pojo.TbItemDesc;
 import com.usian.service.ItemService;
 import com.usian.utils.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +81,15 @@ public class ItemController {
     @RequestMapping("/updateTbItem")
     public Integer updateTbItem(@RequestBody TbItem tbItem, String desc,String itemParams){
         return itemService.updateTbItem(tbItem,desc,itemParams);
+    }
+
+    /**
+     * 商品描述详情搜索
+     * @param itemId
+     * @return
+     */
+    @RequestMapping("/selectItemDescByItemId")
+    public TbItemDesc selectItemDescByItemId(Long itemId){
+        return itemService.selectItemDescByItemId(itemId);
     }
 }
