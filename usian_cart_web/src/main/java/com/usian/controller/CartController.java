@@ -165,7 +165,14 @@ public class CartController {
                 }
 
             }else{
-                //登录
+                //登录状态
+                //获取购物车
+                Map<String, TbItem> cart = getCartFromRedis(userId);
+                Set<String> keys = cart.keySet();
+                for (String key : keys) {
+                    TbItem tbItem = cart.get(key);
+                    itemList.add(tbItem);
+                }
             }
             return Result.ok(itemList);
         }catch (Exception e){
@@ -195,7 +202,15 @@ public class CartController {
                 addClientCookie(response,cart,request);
 
             }else{
-
+                // 在用户已登录的状态
+                //获取购物车
+                Map<String, TbItem> cart = getCartFromRedis(userId);
+                TbItem tbItem = cart.get(itemId.toString());
+                if(tbItem!=null){
+                    tbItem.setNum(num);
+                }
+                //将新的购物车缓存到 Redis 中
+                addItemToRedis(userId,cart);
             }
             return Result.ok();
         }catch (Exception e){
@@ -220,7 +235,11 @@ public class CartController {
                 cart.remove(itemId.toString());
                 addClientCookie(response,cart,request);
             }else{
-
+                // 在用户已登录的状态
+                Map<String, TbItem> cart = getCartFromRedis(userId);
+                cart.remove(itemId.toString());
+                //将新的购物车缓存到 Redis 中
+                addItemToRedis(userId,cart);
             }
             return Result.ok();
         }catch (Exception e){
