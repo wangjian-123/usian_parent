@@ -33,20 +33,6 @@
         <module name="usian_sso_web" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="common_redis" target="1.8" />
-      <module name="usian_cart_feign" target="1.8" />
-      <module name="usian_cart_service" target="1.8" />
-      <module name="usian_cart_web" target="1.8" />
-      <module name="usian_detail_web" target="1.8" />
-      <module name="usian_portal_web" target="1.8" />
-      <module name="usian_search_feign" target="1.8" />
-      <module name="usian_search_service" target="1.8" />
-      <module name="usian_search_web" target="1.8" />
-      <module name="usian_sso_feign" target="1.8" />
-      <module name="usian_sso_service" target="1.8" />
-      <module name="usian_sso_web" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

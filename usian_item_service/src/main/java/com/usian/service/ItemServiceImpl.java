@@ -2,10 +2,7 @@ package com.usian.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.usian.mapper.TbItemCatMapper;
-import com.usian.mapper.TbItemDescMapper;
-import com.usian.mapper.TbItemMapper;
-import com.usian.mapper.TbItemParamItemMapper;
+import com.usian.mapper.*;
 import com.usian.pojo.*;
 import com.usian.redis.RedisClient;
 import com.usian.utils.IDUtils;
@@ -63,6 +60,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Value(("${SETNX_DESC_LOCK_KEY}"))
     private String SETNX_DESC_LOCK_KEY;
+
+    @Autowired
+    private TbOrderItemMapper tbOrderItemMapper;
 
 
     /**
@@ -296,5 +296,26 @@ public class ItemServiceImpl implements ItemService {
             return selectItemDescByItemId(itemId);
         }
 
+    }
+
+    /**
+     * 扣减库存
+     * @param orderId
+     * @return
+     */
+    @Override
+    public Integer updateTbItemByOrderId(String orderId) {
+        TbOrderItemExample tbOrderItemExample = new TbOrderItemExample();
+        TbOrderItemExample.Criteria criteria = tbOrderItemExample.createCriteria();
+        criteria.andOrderIdEqualTo(orderId);
+        int result = 0;
+        List<TbOrderItem> tbOrderItems = tbOrderItemMapper.selectByExample(tbOrderItemExample);
+        for (TbOrderItem tbOrderItem : tbOrderItems) {
+            TbItem tbItem = tbItemMapper.selectByPrimaryKey(Long.valueOf(tbOrderItem.getItemId()));
+            tbItem.setNum(tbItem.getNum()-tbOrderItem.getNum());
+            result += tbItemMapper.updateByPrimaryKeySelective(tbItem);
+        }
+
+        return result;
     }
 }
