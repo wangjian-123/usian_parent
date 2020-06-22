@@ -1,7 +1,12 @@
 package com.usian.quartz;
 
+import com.usian.mapper.LocalMessageMapper;
+import com.usian.mq.MqSender;
+import com.usian.pojo.LocalMessage;
+import com.usian.pojo.LocalMessageExample;
 import com.usian.pojo.TbOrder;
 import com.usian.redis.RedisClient;
+import com.usian.service.LocalMessageService;
 import com.usian.service.OrderService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -21,6 +26,12 @@ public class OrderQuartz implements Job {
 
     @Autowired
     private RedisClient redisClient;
+
+    @Autowired
+    private LocalMessageService localMessageService;
+
+    @Autowired
+    private MqSender mqSender;
 
     /**
      * 关闭超时订单
@@ -47,6 +58,14 @@ public class OrderQuartz implements Job {
                 orderService.updateItem(tbOrder.getOrderId());
             }
             redisClient.del("SETNX_LOCK_ORDER_KEY");
+
+            System.out.println("执行扫描本地消息表的任务...." + new Date());
+            List<LocalMessage> localMessageList =
+                    localMessageService.selectLocalMessageByStatus();
+            for (LocalMessage localMessage : localMessageList) {
+                mqSender.sendMessage(localMessage);
+            }
+
         }else{
             System.out.println(
                     "============机器："+ip+" 占用分布式锁，任务正在执行=======================");
